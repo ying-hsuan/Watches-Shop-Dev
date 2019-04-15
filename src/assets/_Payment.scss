@@ -1,0 +1,138 @@
+.orderlist_all {
+    margin-top: 100px;
+    min-height : calc(100vh - 120px) ;
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(255, 255, 255, 0.5);
+        z-index: 1000;
+    }
+    // 購物流程
+    .step_all {
+        display: flex;
+        justify-content: center;
+        max-width: 300px;
+        padding: 0;
+
+        .step_list {
+            color: $main-color4;
+            width: 33.3%;
+            font-weight: 900;
+            text-align: center;
+
+            .step {
+                margin-bottom: 10px;
+                @include center;
+                
+                .step_txt {
+                    color: $main-color4;
+                    width: 40px;
+                    height: 40px;
+                    background-color: $gray-200;
+                    border: 2px solid $gray-500;
+                    @include center;
+                }
+
+                .active {
+                    color: $white;
+                    background-color: $main-color3;
+                    border: 2px solid $main-color2;
+                }
+            }
+
+            .step_ct {
+                font-weight: bold;
+                white-space: nowrap;
+            }
+
+            .bg_line_all {
+                // display: block;
+                width: 200px;
+                height: 3px;
+                background-color: $gray-500;
+                z-index: -1;
+                position: relative;
+                top: -68px;
+                right: -50px;
+            }        
+        }
+    }
+
+    form {
+        .table {
+            color: $main-color4;
+            font-size: 15px;
+            thead {
+                th {
+                    color: white;
+                    font-size: 16px;
+                    font-weight: 500;
+                    padding: 5px 12px;
+                    background-color: $main-color2;
+                }
+            }
+
+            .cart_menu_title {
+                font-weight: bold;
+            }
+
+            td {
+                padding: 12px 2px;
+            }
+        }
+    
+        .table_pdlist {
+            .pd_img {
+                width: 50px;
+            }
+
+            .total_txt {
+                color: $main-color3;
+                font-weight: 700;
+                font-size: 18px;
+            }
+        }
+    
+        .table_user {
+            .pay_status_row {
+                vertical-align: middle;
+
+                .not_paid {
+                    font-size: 18px;
+                    color: rgb(235, 72, 72);
+                    font-weight: bold;
+                }
+
+                .paid_finish {
+                    font-size: 18px;
+                    font-weight: bold;
+                }
+            }
+            
+        }
+
+        .btn_group {
+            .btn {
+                border-radius: 0;
+            }
+
+            .btn_backto_pd {
+                padding: 8.5px 12px;
+                font-size: 14px;
+                margin-left: 10px;
+                border: 0;
+                color: white;
+                background-color: $main-color4;
+                &:hover{
+                    background-color: #768b9e;
+                }
+            }
+        }
+    }
+
+    
+    
+}

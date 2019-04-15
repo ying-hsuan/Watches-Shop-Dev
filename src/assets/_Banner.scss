@@ -1,0 +1,115 @@
+.banner {
+	position: relative;
+	top: 50px;
+	margin-bottom: 80px;
+	@include mobile() {
+		top: 60px;
+	}
+
+	.carousel-indicators {
+
+		@include mobile() {
+			margin: 0;
+		}
+
+		li {
+			@include mobile() {
+				width: 20px;
+				height: 2px;
+				margin: 0 1.5px;
+			}
+		}
+	}
+
+	.logo_slogan_all {
+		position: absolute;
+		top: -70px;
+		@include pad-pro() {
+			top: -50px;
+		}
+
+		@include pad() {
+			top: -70px;
+		}
+
+		@include mobile() {
+			top: -85px;
+		}
+
+		.logo-all {
+			display: block;
+			// position: absolute;
+			margin-left: 8vw;
+			cursor: initial;
+
+			@include pad() {
+				position: relative;
+				top: 20px;
+			}
+
+			@include mobile() {
+				position: relative;
+				top: 60px;
+			}
+
+			@include mobile-s() {
+				position: relative;
+				top: 65px;
+			}
+
+			.logo {
+				width: 20vw;
+				cursor: pointer;
+			}
+		}
+
+		.slogan_all {
+			color: #ffffff;
+			text-align: right;
+			position: relative;
+			top: -20px;
+			right: -55vw;
+			line-height: 1;
+
+			@include pad() {
+				top: 10px;
+			}
+
+			@include mobile() {
+				top: 50px;
+			}
+
+			@include mobile-s() {
+				top: 50px;
+			}
+
+			.slogan {
+				position: relative;
+				font-family: "Monotype Corsiva";
+				font-size: 2.3vw;
+				margin-bottom: 0;
+				color: #ffffff;
+
+				@include mobile() {
+					font-size: 8px;
+				}
+
+			}
+
+			.slogan-ch {
+				color: #ffffff;
+				position: relative;
+				// top: -25px;
+				right: -50px;
+				font-size: 1vw;
+				font-style: italic;
+				margin-bottom: 0;
+
+				@include mobile() {
+					font-size: 10%;
+					right: -30px;
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,39 @@
+.products_all {
+    margin-top: 40px;
+    min-height : calc(100vh - 120px) ;
+    @include mobile() {
+        width: 90%;
+    }
+
+    // 左側選單
+    .pds_menu_all {
+        a {
+            padding: 8px 15px;
+            font-weight: 500;
+            text-decoration: none;
+            margin-bottom: 6px;
+            border-color: rgb(184, 184, 184);
+
+        }
+
+        .list-group-item {
+            color: $main-color4;
+            border-radius: 0;
+            &:hover {
+                color: white;
+                background-color: #7c8c9c;
+                transition: all 0.1s; 
+            }
+
+            .fa-clock {
+                margin-right: 4px;
+            }
+        }
+
+        .active {
+            color: white;
+            background-color: $main-color4;
+        }
+    }
+
+}

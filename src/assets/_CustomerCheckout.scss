@@ -1,0 +1,251 @@
+.customer_checkout {
+    margin-top: 100px;
+    min-height : calc(100vh - 120px) ;
+    p {
+        margin: 0;
+    }
+
+    .btn_backto_pd {
+        font-size: 14px;
+        margin-left: 10px;
+        border-radius: 0;
+        border: 0;
+        color: white;
+        background-color: $main-color4;
+        padding: 5px 12px;
+        &:hover{
+            background-color: #768b9e;
+        }
+    }
+
+    // 購物流程
+    .step_all {
+        display: flex;
+        justify-content: center;
+        max-width: 300px;
+        padding: 0;
+
+        .step_list {
+            color: $main-color4;
+            width: 33.3%;
+            font-weight: 900;
+            text-align: center;
+
+            .step {
+                margin-bottom: 10px;
+                @include center;
+                
+                .step_txt {
+                    color: $main-color4;
+                    width: 40px;
+                    height: 40px;
+                    background-color: $gray-200;
+                    border: 2px solid $gray-500;
+                    @include center;
+                }
+
+                .active {
+                    color: $white;
+                    background-color: $main-color3;
+                    border: 2px solid $main-color2;
+                }
+
+            }
+
+            .step_ct {
+                font-weight: bold;
+                white-space: nowrap;
+            }
+
+            .bg_line_all {
+                // display: block;
+                width: 200px;
+                height: 3px;
+                background-color: $gray-500;
+                z-index: -1;
+                position: relative;
+                top: -53px;
+                right: -50px;
+            }        
+        }
+    }
+
+    .cart_list_all {
+        .cart_head_all {
+            width: 100%;
+            color: $main-color4;
+            font-weight: bold;
+
+            h5 {
+                font-weight: bold;
+            }
+
+            .cart_length {
+                color: white;
+                width: 23px;
+                height: 23px;
+                background-color: $main-color3;
+                font-size: 14px;
+                @include center;
+                position: relative;
+                top: -3px;
+
+                .cart_length_txt {
+                    color: white;
+                }
+            }
+        }
+    
+        table {
+            color: $main-color4;
+            @include mobile-s() {
+                // font-size: 13px;
+            }
+            // white-space: nowrap;
+    
+            tr {
+                border-top: 1px solid rgb(218, 218, 218);
+            }
+
+            td {
+                padding: 10px 2px;
+                border-top: 0px;
+            }
+
+            .trash_btn {
+                display: block;
+                width: 25px;
+                height: 25px;
+                border: 1px solid $main-color3;
+                background-color: transparent;
+                color: $main-color3;
+                &:hover {
+                    background-color: #fff7ed;
+                }
+                
+                .fa-spinner, .fa-trash-alt {
+                    color: $main-color3;
+                    font-weight: 700;
+                    @include center;
+                }
+            }
+
+            .pd_img_mob {
+                display: none;
+                @include mobile-s() {
+                    display: block;
+                    width: 35px;
+                }
+            }
+            
+            .pd_img_lg {
+                width: 50px;
+                @include mobile-s() {
+                    display: none;
+                    
+                }
+            }
+
+            .total_row {
+                padding: 10px 0;
+
+                .total {
+                    font-size: 16px;
+                    font-weight: bold;
+                    padding: 10px 2px;
+
+                    .total_txt {
+                        color: $main-color3;
+                    }
+                }
+            }
+        }
+
+        .coupon_input_all {
+            display: flex;
+            flex-wrap: nowrap;
+            
+            .coupon_input {
+                border: 1px solid rgb(185, 185, 185);
+                width: 100%;
+                padding: 6px 12px;
+                &:focus {
+                    border-color: $main-color3;
+                    outline: 1px solid $main-color3;
+                }
+            }
+
+            .btn_add_coupon {
+                padding: 8px 12px;
+                color: white;
+                border: 1px solid $main-color3;
+                background-color: $main-color3;
+                border-radius: 0;
+                white-space: nowrap;
+                &:hover {
+                    background-color: #b1874b;
+                    border-color: #b1874b;
+                }
+                &:focus {
+                    border-color: $main-color3;
+                    outline: none;
+                }
+            }
+        }
+
+        
+    }
+
+    // 使用者表單
+    .user_form {
+        @include pad() {
+            
+        }
+
+        h5 {
+            color: $main-color4;
+            font-weight: bold;
+        }
+
+        label {
+            color: rgb(128, 128, 128);
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            height: 35px;
+            border-radius: 0;
+            padding: 10px 10px;
+            border-style: solid;
+            border: 1px solid rgb(201, 201, 201);
+            background-color: transparent !important;
+            // -webkit-autofill {
+            //     background-color: red !important;
+            // }
+            // -webkit-autofill {
+            //     -webkit-text-fill-color: yellow !important;
+            // }
+            &:focus {
+                outline: 1px solid $main-color3;
+            }
+        }
+
+        
+
+        textarea {
+            padding: 10px 12px;
+            width: 100%;
+            border: 1px solid rgb(201, 201, 201);
+            &:focus {
+                outline: 1px solid $main-color3;
+            }
+        }
+
+        .btn_form_output {
+            border-radius: 0;
+        }
+    }
+
+    
+}

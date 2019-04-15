@@ -1,0 +1,215 @@
+a {
+    color: rgb(67, 66, 109);
+}
+
+.custom_navbar {
+    width: 100%;
+    font-size: 14px;
+    padding: 0;
+    position: fixed;
+    top: 0;
+    z-index: 10;
+
+    .navbar-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: nowrap;
+        padding: 5px 0;
+        width: 100%;
+        // height: 45px;
+        padding-right: 10px;
+        border-bottom: 5px solid #d4ac70;
+        background-color: #3c4a57;
+    }
+
+    // 導覽列
+    .navbar-icon-all {
+        .nav_mob {
+            display: none;
+            @include mobile() {
+                display: block;
+            }
+        }
+
+        .nav-title {
+            margin: 0 10px;
+            color: white;
+        }
+
+        .nav_brand_all {
+            margin-left: 10px;
+            line-height: 25px;
+            .nav_brand {
+                color: white;
+                font-family: Nueva Std;
+                text-align: left;
+                font-size: 24px;
+                font-weight: bold;
+                font-style: italic;
+                letter-spacing: 1px;
+                white-space: nowrap;
+                margin-left: 10px;
+                position: relative;
+                bottom: -5px;
+            }
+        }
+        
+        .nav_title_all {
+            @include center;
+            .nav_pc {
+                @include mobile() {
+                    display: none;
+                }
+            }
+        }
+
+        .btn-cart {
+            .fa-shopping-cart {
+                font-size: 24px;
+                color: #d4ac70;
+                &:hover {
+                    color: #ecc78f;
+                }
+            }
+
+            .badge {
+                font-size: 50%;
+            }
+
+            .badge-danger {
+                color: red;
+                background-color: white;
+            }
+        }
+    }
+
+    // 購物車列表
+    .cart_box {
+        // display: none;
+        min-width: 300px;
+        position: absolute;
+        top: 45px;
+        right: 5px;
+        font-size: 14px;
+        background-color: white;
+        border-radius: 0px;
+        z-index: 1100;
+        box-shadow: 0px 0px 5px rgb(206, 206, 206);
+
+        .cart_head {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: nowrap;
+            h6 {
+                color: $main-color4;
+            }
+
+            .final_total {
+                color: #3c4a57;
+            }
+        }
+
+        .cart_menu_all {
+            max-height: 60vh;
+            overflow-y: scroll;
+
+            .table {
+                color: #5a6c7d;
+                tr {
+                    padding: 0 15px;
+                }
+
+                td {
+                    border-top: 0;
+                }
+            }
+            .trash_btn {
+                display: block;
+                border: 1px solid #8d6128;
+                background-color: transparent;
+                &:hover {
+                    background-color: #fff7ed;
+                }
+                .fa-spinner {
+                    color: #8d6128;
+                }
+    
+                .fa-trash-alt {
+                    color: #8d6128;
+                }
+            }
+        }
+
+        .goto_check_link {
+            text-decoration: none;
+
+            .btn_cart {
+                color: white;
+                background-color: #8d6128;
+                border-radius: 0px;
+                &:hover {
+                    background-color: #b1874b;
+                }
+                .fa-cart-plus {
+                    color: white;
+                }
+            }
+        }
+
+        .pd_img {
+            width: 50px;
+        }
+    }
+}
+
+// 自定義導覽列樣式
+// ==========================================================
+
+.jumbotron-bg {
+    /* banners.png */
+    background: url("https://images.unsplash.com/photo-1477901492169-d59e6428fc90?w=1350");
+    background-size: cover;
+    background-position: center center;
+    min-height: 400px;
+}
+
+/* 半透明背景 */
+.bg-lighter {
+    background-color: rgba(255, 255, 255, 0.45);
+}
+
+/* 購物車按鈕 */
+.btn-cart {
+    background-color: transparent;
+    position: relative;
+}
+
+/* 購物車按鈕定位 */
+.btn-cart .badge {
+    position: absolute;
+    top: 1px;
+    right: 1px;
+}
+
+.main-content {
+    min-height: calc(100vh - 56px - 176px);
+}
+
+.box-shadow {
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);
+    transition: 0.3s linear;
+}
+
+.box-shadow:hover {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.dropdown-menu-right {
+    right: 0;
+    left: auto;
+}
+
+.alert-rounded {
+    border-radius: 50px;
+}

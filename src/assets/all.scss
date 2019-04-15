@@ -1,0 +1,15 @@
+@import "~bootstrap/scss/functions";
+@import "./helpers/_variables";
+@import "./helpers/_var_customer.scss";
+//載入 node_modules 裡的 bootstrap
+@import "~bootstrap/scss/bootstrap"; 
+@import "./_root";
+@import "./_dashboard";
+@import "./_Navbar";
+@import "./_Footer";
+@import "./_Banner";
+@import "./_CustomerProducts";
+@import "./_CustomerProduct";
+@import "./_Detail";
+@import "./_CustomerCheckout";
+@import "./_Payment";
