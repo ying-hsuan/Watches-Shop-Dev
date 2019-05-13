@@ -36,7 +36,6 @@
 						<div>
 							數量：&nbsp;
 							<select
-								v-model="product.num"
 								name="select_num"
 								class="select_num"
 								placeholder="請選擇數量"
