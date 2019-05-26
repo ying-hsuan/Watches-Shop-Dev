@@ -101,7 +101,19 @@
 				console.log('emit on')
 				this.getCart();
 			});
+
+			this.$bus.$on('emptyCart', () => {
+				console.log('emptyCart')
+				this.removeAllCart();
+			});
 		},
+
+		// updated() {
+		// 	this.$bus.$on('emptyCart', () => {
+		// 		console.log('emptyCart')
+		// 		this.removeAllCart();
+		// 	});
+		// },
 
 		methods: {
 			getCart() {
@@ -125,6 +137,10 @@
 					vm.getCart();
 					console.log('刪除購物車項目', response);
 				});
+			},
+
+			removeAllCart() {
+				this.cart.carts = [];
 			},
 
 			toggleCartbox() {

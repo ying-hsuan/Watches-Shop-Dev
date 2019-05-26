@@ -97,7 +97,7 @@
 						</tbody>
 					</table>
 					<div class="text-right btn_group">
-						<button class="btn btn-danger btn_goto_pay" v-if="!order.is_paid">確認付款去</button>
+						<button class="btn btn-danger btn_goto_pay" v-if="!order.is_paid" @click="emptyCart">確認付款去</button>
 						<button class="btn btn_backto_pd" @click="backtoHome" v-else>&lt;&nbsp; 回到產品列表</button>
 					</div>
 				</form>
@@ -114,6 +114,9 @@
 					user: {},
 				},
 				orderId: '',
+				cart: {
+					carts: [],
+				},
 				isLoading: false,
 			}
 		},
@@ -145,14 +148,30 @@
 				// document.querySelector('.overlay').style.display = "block";
 			},
 
+			getCart() {
+				const vm = this;
+				const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
+				this.$http.get(url).then((response) => {
+					console.log(response);
+					vm.cart = response.data.data;
+				});
+			},
+
+			emptyCart() {
+				this.$bus.$emit('emptyCart');
+				// cart.carts = [];
+			},
+
 			backtoHome() {
 				this.$router.push('/');
+				// this.$bus.$emit('emptyCart');
 			}
 		},
 
 		created() {
 			// $route.params: 把網址列上的 id 取出來的方法
 			// 對應路由上的 "orderId"，兩者名稱必須一樣
+			this.getCart();
 			this.orderId = this.$route.params.orderId;
 			console.log(this.orderId)
 			this.getOrder();

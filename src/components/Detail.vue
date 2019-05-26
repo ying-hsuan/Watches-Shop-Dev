@@ -36,6 +36,7 @@
 						<div>
 							數量：&nbsp;
 							<select
+								v-model="product.num"
 								name="select_num"
 								class="select_num"
 								placeholder="請選擇數量"
@@ -105,6 +106,7 @@
 				this.$http.get(url).then((response) => {
 					console.log(response);
 					vm.product = response.data.product;
+					vm.product.num = 1;
 					vm.isLoading = false;
 				});
 			},
