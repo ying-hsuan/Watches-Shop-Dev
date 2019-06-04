@@ -1,5 +1,6 @@
 <template>
 	<div>
+		<loading :active.sync="isLoading"></loading>
 		<form class="form-signin" @submit.prevent="signin">
 			<img class="mb-4" src="/docs/4.3/assets/brand/bootstrap-solid.svg" alt width="72" height="72">
 			<h1 class="h3 mb-3">會員登入</h1>
@@ -52,20 +53,23 @@
 				user: {
 					username: '',
 					password: '',
-				}
+				},
+				isLoading: false,
 			}
 		},
 		methods: {
 			signin() {
 				const api = `${process.env.VUE_APP_APIPATH}/admin/signin`;
-                const vm = this;
+				const vm = this;
+				vm.isLoading = true;
 
                 // 登入的 API 需傳入使用者帳密: 參數 (vm.user)
 				this.$http.post(api, vm.user).then((response) => {
                     console.log(response.data);
                     if(response.data.success) {
                         vm.$router.push('/admin/products');
-                    }
+					}
+					vm.isLoading = false;
 				})
 			}
 		}
