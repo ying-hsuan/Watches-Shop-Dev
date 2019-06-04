@@ -236,6 +236,8 @@
 					vm.status.delitem = '';
 					vm.getCart();
 					console.log('刪除購物車項目', response);
+
+					vm.$bus.$emit('regetCart');
 				});
 			},
 
@@ -262,7 +264,6 @@
 							// vm.getCart();
 						});
 					}
-					
 				});
 			},
 
