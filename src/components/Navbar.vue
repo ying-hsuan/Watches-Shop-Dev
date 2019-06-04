@@ -10,7 +10,7 @@
 				<div class="nav_mob">
 					<router-link to="/" class="nav-title">首頁 | 產品列表</router-link>
 					<router-link to="/admin" class="nav-title">後台管理</router-link>
-					<router-link to="/login" class="nav-title">登入</router-link>
+					<!-- <router-link to="/login" class="nav-title">登入</router-link> -->
 				</div>
 			</div>
 
@@ -19,7 +19,7 @@
 				<div class="nav_pc">
 					<router-link to="/" class="nav-title">首頁 | 產品列表</router-link>
 					<router-link to="/about" class="nav-title">後台管理</router-link>
-					<router-link to="/about" class="nav-title">登入</router-link>
+					<!-- <router-link to="/about" class="nav-title">登入</router-link> -->
 				</div>
 				<!-- 購物車按鈕 -->
 				<button

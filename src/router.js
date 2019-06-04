@@ -61,7 +61,7 @@ export default new Router({
                     path: 'products',
                     name: 'Products',
                     component: () => import('@/components/admin/Products.vue'),
-                    // meta: { requiresAuth: true },
+                    meta: { requiresAuth: true },
                 },
 
                 // 管理訂單

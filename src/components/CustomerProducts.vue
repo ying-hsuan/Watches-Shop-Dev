@@ -108,6 +108,8 @@
 					if (response.data.success) {
 						vm.products = response.data.products;
 
+						// 把每個分類選項列出來
+						
 						var resDataPds = response.data.products;
 						resDataPds.forEach((item, i) => {
 							// console.log(item.category)
