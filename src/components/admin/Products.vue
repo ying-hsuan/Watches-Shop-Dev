@@ -248,7 +248,7 @@
 				tempProduct: {},
 				isNew: false,
 				isLoading: false,  // 讀取效果的開關
-				fileUploading: false,  // 上傳檔案的讀取效果開關
+				fileUploading: false,  // 上傳檔案的讀取效果(小的轉圈圈)
 			}
 		},
 
@@ -369,7 +369,7 @@
 					// 
 					if (response.data.success) {
 						// 此時 tempProduct.image 裡並沒有包含 getter 與 setter，所以並沒有正確寫入資料，所以需要用 "$set" 強制寫入
-						// vm.tempProduct.imageUrl = response.data.imageUrl;
+						// vm.tempProduct.imageUrl = response.data.imageUrl;  // 存入 tempProduct
 						console.log(vm.tempProduct);
 
 						//     1.被存入的資料 2.資料裡的欄位 3.要存入什麼資料

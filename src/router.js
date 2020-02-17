@@ -4,9 +4,8 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 export default new Router({
-    routes: [
-        {
-            // 避免使用者進入不存在的頁面
+    routes: [{
+            // 避免使用者進入不存在的頁面(使用者自己在網址亂打網址)，重新導向登入頁面
             path: '*',
             redirect: 'login',
         },
@@ -17,27 +16,31 @@ export default new Router({
             // name: 'home',
 
             // vue cli3 可以直接在 routes 裡的 component 匯入分頁路徑
-            component: () => import('./views/Home.vue'),
-            children: [
-                {
+            component: () =>
+                import ('./views/Home.vue'),
+            children: [{
                     path: '/',
                     name: 'CustomerOrders',
-                    component: () => import('@/components/CustomerProducts.vue'),
+                    component: () =>
+                        import ('@/components/CustomerProducts.vue'),
                 },
                 {
                     path: '/detail/:product_id',
                     name: 'Detail',
-                    component: () => import('@/components/Detail.vue'),
+                    component: () =>
+                        import ('@/components/Detail.vue'),
                 },
                 {
                     path: '/customer_checkout',
                     name: 'CustomerCheckout',
-                    component: () => import('@/components/CustomerCheckout.vue'),
+                    component: () =>
+                        import ('@/components/CustomerCheckout.vue'),
                 },
                 {
                     path: '/payment/:orderId',
                     name: 'Payment',
-                    component: () => import('@/components/Payment.vue'),
+                    component: () =>
+                        import ('@/components/Payment.vue'),
                 },
             ]
         },
@@ -46,21 +49,24 @@ export default new Router({
         {
             path: '/login',
             name: 'Login',
-            component: () => import('./views/Login.vue')
+            component: () =>
+                import ('./views/Login.vue')
         },
 
         // 後台管理
         {
             path: '/admin',
             name: 'Dashboard',
-            component: () => import('@/components/admin/Dashboard.vue'),
+            component: () =>
+                import ('@/components/admin/Dashboard.vue'),
             children: [
 
                 // 管理商品
                 {
                     path: 'products',
                     name: 'Products',
-                    component: () => import('@/components/admin/Products.vue'),
+                    component: () =>
+                        import ('@/components/admin/Products.vue'),
                     meta: { requiresAuth: true },
                 },
 
@@ -68,14 +74,16 @@ export default new Router({
                 {
                     path: 'orders',
                     name: 'Orders',
-                    component: () => import('@/components/admin/Orders.vue'),
+                    component: () =>
+                        import ('@/components/admin/Orders.vue'),
                 },
 
                 // 管理優惠券
                 {
                     path: 'coupons',
                     name: 'Coupons',
-                    component: () => import('@/components/admin/Coupons.vue'),
+                    component: () =>
+                        import ('@/components/admin/Coupons.vue'),
                 },
             ]
         },

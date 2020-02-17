@@ -37,7 +37,8 @@
 			};
 		},
 		methods: {
-			// 加入訊息的屬性，然後把自己移除
+			// message, status：接收 / Products.vue $bus 的參數
+			// this.$bus.$emit('messsage:push', 'response.data.message', 'danger');
 			updateMessage(message, status) {
                 // 把 timestamp 轉成整數
 				const timestamp = Math.floor(new Date() / 1000);

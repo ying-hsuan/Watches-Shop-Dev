@@ -1,8 +1,15 @@
+// functions 是 bootstrap 套用變數的方法，先載入 functions 才可以用下方 _variables
+
 @import "~bootstrap/scss/functions";
+
+// 0. 建立自己的 bootstrap scss 變數值
+// 1. 從 node_modules/bootstrap/scss/_variables.scss 複製出來的檔案
 @import "./helpers/_variables";
 @import "./helpers/_var_customer.scss";
-//載入 node_modules 裡的 bootstrap
+
+//載入 node_modules 裡的 bootstrap 的 scss 
 @import "~bootstrap/scss/bootstrap"; 
+
 @import "./_root";
 @import "./_dashboard";
 @import "./_Navbar";
