@@ -106,7 +106,10 @@
 				this.$http.get(url).then((response) => {
 					console.log(response);
 					vm.product = response.data.product;
+
+					// 一開始設定數量是 1，不然選擇框會空白
 					vm.product.num = 1;
+					
 					vm.isLoading = false;
 				});
 			},

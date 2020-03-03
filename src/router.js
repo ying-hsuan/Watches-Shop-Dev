@@ -20,7 +20,7 @@ export default new Router({
                 import ('./views/Home.vue'),
             children: [{
                     path: '/',
-                    name: 'CustomerOrders',
+                    name: 'CustomerProducts',
                     component: () =>
                         import ('@/components/CustomerProducts.vue'),
                 },
@@ -33,6 +33,9 @@ export default new Router({
                 {
                     path: '/customer_checkout',
                     name: 'CustomerCheckout',
+                    meta: {
+                        keepAlive: true // 需要缓存
+                    },
                     component: () =>
                         import ('@/components/CustomerCheckout.vue'),
                 },

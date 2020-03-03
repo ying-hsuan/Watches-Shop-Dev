@@ -40,6 +40,8 @@
 				<!-- 產品列表 -->
 				<div class="container col-md-9 prod_all">
 					<div v-if="category == '全部商品'">
+
+						<!-- 把每個商品卡片做成一個元件，因為想要顯示全部商品時，才顯示分頁，篩選時不要分頁 -->
 						<Product :products="pageProducts"></Product>
 						<Pagination :pages="pagination" @emitPages="getPageProducts"></Pagination>
 					</div>
@@ -108,8 +110,9 @@
 					if (response.data.success) {
 						vm.products = response.data.products;
 
-						// 把每個分類選項列出來
-						
+						// 把每個商品的分類值裝進 categoryList，
+						// 這樣會顯示全部商品 20 個類
+						// 但我們只有 5 種分類，所以下方把重複的值刪掉
 						var resDataPds = response.data.products;
 						resDataPds.forEach((item, i) => {
 							// console.log(item.category)

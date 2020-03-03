@@ -117,13 +117,13 @@
 		created() {
 			const vm = this;
 
+			// 0. 從 admin/Products.vue傳來
 			// 1. 呼叫event bus，$bus 是在 bus.js 呼叫的變數
 			// 2. 接收內層 ($on) 'messsage:push' 的方法，可自定義名稱 
 			// 3. 傳入參數 
 			// 		=> message: data裡的變數，
 			// 		=> status: 樣式，預設值為 warning
 			// 4. 執行更新訊息的方法
-			// 對照 bus.js、 Products.vue檔案
 			vm.$bus.$on('messsage:push', (message, status = 'warning') => {
 				vm.updateMessage(message, status);
 			});

@@ -36,11 +36,23 @@
 				</button>
 			</div>
 		</div>
+
+
 		<!-- 購物車列表 -->
 		<div class="cart_box p-3" v-show="isShow">
-			<div class="cart_head">
+			<div 
+				class="cart_head"
+				:class="{ 'text-success': 'hasCoupon' }"
+			>
+
 				<h6>已選擇商品</h6>
-				<p class="final_total">總計 {{ cart.final_total | currency }}</p>
+				<p class="final_total">
+					<span class="text-success" v-if="hasCoupon">折扣後 </span>   
+					<span v-else>總計 </span>
+
+					<span class="text-success" v-if="hasCoupon">{{ cart.final_total | currency }}</span>
+					<span v-else>{{ cart.final_total | currency }}</span>
+				</p>
 				<!-- <div class="btn_close">
 						<i class="fas fa-times"></i>
 				</div>-->
@@ -49,7 +61,8 @@
 			<div class="cart_menu_all mb-3">
 				<table class="table table-sm" v-if="cart.carts.length">
 					<tbody>
-						<tr v-for="item in cart.carts" :key="item.id" :regetCart="getCart">
+						<!-- <tr v-for="item in cart.carts" :key="item.id" :regetCart="getCart"> -->
+						<tr v-for="item in cart.carts" :key="item.id">
 							<td class="align-middle text-center">
 								<button class="trash_btn" @click.prevent="removeCart(item.id)">
 									<i class="fas fa-spinner fa-spin" v-if="status.delitem == item.id"></i>
@@ -62,7 +75,9 @@
 							</td>
 							<td class="align-middle text-center">{{ item.product.title }}</td>
 							<td class="align-middle">{{ item.qty }}/{{item.product.unit}}</td>
-							<td class="align-middle text-right">{{item.total | currency}}</td>
+
+							<td class="align-middle text-right text-success" v-if="hasCoupon">{{item.final_total | currency}}</td>
+							<td class="align-middle text-right" v-else>{{item.total | currency}}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -92,20 +107,33 @@
 					delitem: '',
 				},
 				isShow: false,
+
+				hasCoupon: false
 			};
 		},
 
 		created() {
 			this.getCart();
+
+			// 從 /CustomerProduct.vue addtoCart(id, qty = 1) 傳來
+			// 從 /CustomerCheckout.vue addCouponCode() 傳來
 			this.$bus.$on('regetCart', () => {
 				console.log('emit on')
 				this.getCart();
 			});
 
+			// 
 			this.$bus.$on('emptyCart', () => {
 				console.log('emptyCart')
 				this.removeAllCart();
 			});
+
+			// 從 /CustomerCheckout.vue addCouponCode() 傳來
+			// 如果有套用優惠券，價格要顯示綠色
+			this.$bus.$on('couponRegetCart', ()=>{
+				console.log('on couponRegetCart')
+				this.getCart();
+			})
 		},
 
 		// updated() {
@@ -126,6 +154,19 @@
 					}
 					vm.isLoading = false;
 					console.log('取得購物車', response.data.data);
+					// console.log(vm.hasCoupon)
+
+					// ---
+					// 如果有套用優惠券，價格要顯示綠色
+
+					let resCarts = response.data.data.carts
+
+					resCarts.forEach((el, i ,arr)=>{
+						if (el.coupon) {
+							vm.hasCoupon = true
+							console.log(vm.hasCoupon)
+						}
+					})
 				});
 			},
 			removeCart(id) {
@@ -135,12 +176,17 @@
 				this.$http.delete(url).then((response) => {
 					vm.status.delitem = '';
 					vm.getCart();
+
+					// 傳給 /CustomerCheckout.vue created()，重新取得購物車
+					this.$bus.$emit('regetCart');
 					console.log('刪除購物車項目', response);
 				});
 			},
 
 			removeAllCart() {
 				this.cart.carts = [];
+				this.$bus.$emit('removeAllCart');
+				this.getCart();
 			},
 
 			toggleCartbox() {
@@ -149,8 +195,7 @@
 
 			closeCartbox() {
 				this.isShow = false;
-			}
-
+			},
 		},
 	};
 </script>

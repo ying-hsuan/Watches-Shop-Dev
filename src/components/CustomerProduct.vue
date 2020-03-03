@@ -1,15 +1,18 @@
 <template>
     <!-- 產品列表 -->
 	<div class="row product_card_all">
-		<div class="col-lg-4 col-md-6 mb-4" v-for="item in products" :key="item.id">
+		<div 
+			class="col-lg-4 col-md-6 mb-4" 
+			v-for="item in products" :key="item.id" 
+		>
 			<div class="card">
 				<!-- 產品圖片 -->
 				<!-- :style => 動態綁定產品的圖片  -->
 				<a
 					href="#"
 					style="height: 150px; background-size: cover; background-position: center"
-					@click="viewDetail(item.id)"
 					:style="{backgroundImage: `url(${item.imageUrl})`}"
+					@click.prevent="viewDetail(item.id)"
 				></a>
 				<div class="card-body">
 					<span class="badge badge-secondary">{{ item.category }}</span>
@@ -81,7 +84,6 @@
                     vm.addtoCartAlert();
                     this.$bus.$emit('regetCart')
                 })
-
                 
 			},
 

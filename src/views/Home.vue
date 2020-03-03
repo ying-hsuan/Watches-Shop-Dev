@@ -2,7 +2,15 @@
 	<div class="home">
 		<Navbar/>
 		<Alert/>
-		<router-view/>
+		
+		<keep-alive>
+			<router-view v-if="$route.meta.keepAlive"></router-view>
+		</keep-alive>
+
+		<router-view v-if="!$route.meta.keepAlive">
+			<!-- 不用 cache 的分頁 -->
+		</router-view>
+		
 		<Footer/>
 	</div>
 </template>

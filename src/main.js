@@ -7,7 +7,7 @@ import 'bootstrap'; // 載入 bootstrap 的套件
 import Loading from 'vue-loading-overlay'; // 讀取中效果套件
 import 'vue-loading-overlay/dist/vue-loading.css'; // 讀取中效果套件
 import VeeValidate from 'vee-validate'; // 表單驗證套件
-import zhTWValidate from 'vee-validate/dist/locale/zh_TW' // 表單中文驗證
+import zhTWValidate from 'vee-validate/dist/locale/zh_TW' // 中文語系的表單驗證
 import VTooltip from 'v-tooltip';
 
 // 通常上放載入 npm 套件內容

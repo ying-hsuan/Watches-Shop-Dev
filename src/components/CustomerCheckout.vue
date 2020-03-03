@@ -5,7 +5,8 @@
 		<div class="mt-3">
 			<button class="btn btn_backto_pd" @click="backtoHome">&lt;&nbsp; 回到產品列表</button>
 		</div>
-		<!-- 購物流程 -->
+		
+		<!-- 用戶付款訂單流程 -->
 		<section class="row justify-content-center mt-4">
 			<div class="step_all col-md-8">
 				<div class="step_list text-center active">
@@ -31,9 +32,10 @@
 			</div>
 		</section>
 
+		<!-- 用戶表單、購物車清單 -->
 		<div class="check_ct_all container mt-3">
 			<div class="row">
-				<!-- 購物清單 -->
+				<!-- 購物車清單 -->
 				<div class="cart_list_all col-lg-5 order-lg-2">
 					<div class="cart_head_all">
 						<div class="cart_head d-flex justify-content-between align-items-center mb-1">
@@ -45,7 +47,10 @@
 					</div>
 					<table class="table" v-if="cart.carts">
 						<tbody>
-							<tr class="total_row" v-for="item in cart.carts" :key="item.id">
+							<tr 
+								class="total_row" 
+								v-for="item in cart.carts" :key="item.id"
+							>
 								<td class="align-middle text-left">
 									<button class="trash_btn" @click.prevent="removeCart(item.id)">
 										<i class="fas fa-spinner fa-spin" v-if="status.delitem == item.id"></i>
@@ -64,7 +69,14 @@
 								</td>
 
 								<td class="align-middle">{{ item.qty }}/{{item.product.unit}}</td>
-								<td class="align-middle text-right">{{item.total | currency}}</td>
+								<td class="align-middle text-right">
+									<!-- 原價 -->
+									<span>{{item.total | currency}}</span>  
+
+									<br>
+									<!-- 折扣後 -->
+									<span v-if="item.final_total != item.total" class="text-success">{{item.final_total | currency}}</span>  
+								</td>
 							</tr>
 							<tr class="total_row">
 								<td colspan="5" class="total text-right">
@@ -176,6 +188,7 @@
 						</div>
 					</form>
 				</div>
+				
 			</div>
 		</div>
 	</div>
@@ -193,10 +206,6 @@
 				},
 				coupon_code: '', // 優惠碼
 
-				// order: {
-				// 	user: {},
-				// },
-				// orderId: '',
 				// 表單內容
 				form: {
 					user: {
@@ -213,6 +222,18 @@
 
 		created() {
 			this.getCart();
+
+			// 從 /Navbar.vue removeCart(id) 傳來 
+			this.$bus.$on('regetCart', () => {
+				console.log('regetCart');
+				this.getCart();
+			});
+
+			// this.$bus.$on('removeAllCart', () => {
+			// 	console.log('removeAllCart');
+			// 	// this.cart.carts = [];
+			// 	this.getCart();
+			// });
 		},
 
 		methods: {
@@ -237,6 +258,7 @@
 					vm.getCart();
 					console.log('刪除購物車項目', response);
 
+					// 傳給 /Navbar.vue 同步更新購物車
 					vm.$bus.$emit('regetCart');
 				});
 			},
@@ -280,6 +302,10 @@
 					console.log(response);
 					vm.getCart();
 					vm.isLoading = false;
+
+					// 傳給 /Navbar.vue
+					// 套用優惠券後，購物車列表也要同步更新折扣後價格
+					this.$bus.$emit('couponRegetCart')
 				});
 			},
 
