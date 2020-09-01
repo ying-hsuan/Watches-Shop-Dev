@@ -62,6 +62,7 @@ export default new Router({
             name: 'Dashboard',
             component: () =>
                 import ('@/components/admin/Dashboard.vue'),
+            redirect: '/admin/products',
             children: [
 
                 // 管理商品
@@ -90,24 +91,5 @@ export default new Router({
                 },
             ]
         },
-
-        // 前台
-        // {
-        //     path: '/admin',
-        //     name: 'Dashboard',
-        //     component: () => import('@/components/admin/Dashboard.vue'),
-        //     children: [
-        //         {
-        //             path: 'customer_orders',
-        //             name: 'CustomerOrders',
-        //             component: () => import('@/components/admin/CustomerOrders.vue'),
-        //         },
-        //         {
-        //             path: 'customer_checkout/:orderId',
-        //             name: 'CustomerCheckout',
-        //             component: () => import('@/components/admin/CustomerCheckout.vue'),
-        //         },
-        //     ]
-        // }
     ]
 })

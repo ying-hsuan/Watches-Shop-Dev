@@ -1,9 +1,8 @@
 <template>
-	<div>
+	<div class="login">
 		<loading :active.sync="isLoading"></loading>
 		<form class="form-signin" @submit.prevent="signin">
-			<img class="mb-4" src="/docs/4.3/assets/brand/bootstrap-solid.svg" alt width="72" height="72">
-			<h1 class="h3 mb-3">會員登入</h1>
+			<h1 class="h3 mb-3">後台登入</h1>
 			<label for="inputEmail" class="sr-only">Email address</label>
 			<input
 				type="email"
@@ -25,6 +24,7 @@
 			>
 			<button class="btn btn-lg btn-primary btn-block" type="submit">登入</button>
 		</form>
+		<router-link to="/" class="gohome">回首頁</router-link>
 	</div>
 </template>
 
@@ -76,7 +76,7 @@
 	}
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 	html,
 	body {
 		height: 100%;
@@ -120,6 +120,22 @@
 		margin-bottom: 10px;
 		border-top-left-radius: 0;
 		border-top-right-radius: 0;
+	}
+
+	.login {
+		margin-top: 50px;	
+	}
+
+	.gohome{
+		display: block;
+		border: 0;
+		margin: 30px auto;
+		padding: 10px 15px;
+		text-align: center;
+		background-color: #5a6c7d;
+		color: white;
+		width: 85px;
+		text-decoration: none;
 	}
 </style>
 
