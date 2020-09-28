@@ -6,7 +6,7 @@
 			<div
 				class="alert_msg d-flex justify-content-between"
 				:class="'alert-' + item.status"
-				v-for="(item, i) in messages"
+				v-for="(item, i) in alertMsgs"
 				:key="i"
 			>
 				<p>{{ item.message }}</p>
@@ -72,46 +72,51 @@
 			return {
 				// 放彈出的訊息內容
 				// 更新進來的資料屬性會是以下幾項
-				// messages: [{
+				// alertMsgs: [{
 				//		message: '訊息內容',
 				//		status: 'danger',  //樣式
 				// 		timestamp: 123  // 類似 id
 				// }],
 
-				messages: [],
+				alertMsgs: [],
 			};
+		},
+		computed: {
+			
 		},
 		methods: {
 			// 加入訊息的屬性，然後把自己移除
 			updateMessage(message, status) {
 				// 把 timestamp 轉成整數
 				const timestamp = Math.floor(new Date() / 1000);
-				this.messages.push({
+				this.alertMsgs.push({
 					message,
 					status,
 					timestamp,
 				});
-				document.querySelector('.overlay').style.display = "block";
+				
 				this.removeMessageWithTiming(timestamp);
-			},
 
-			// 手動刪除
-			removeMessage(num) {
-				this.messages.splice(num, 1);
-				document.querySelector('.overlay').style.display = "none";
+				document.querySelector('.overlay').style.display = "block";
 			},
 
 			// 五秒過後自動刪除自己，從 updateMessage 裡傳進來的 timestamp參數才會自動移除
 			removeMessageWithTiming(timestamp) {
 				const vm = this;
 				setTimeout(() => {
-					vm.messages.forEach((item, i) => {
+					vm.alertMsgs.forEach((item, i) => {
 						if (item.timestamp === timestamp) {
-							vm.messages.splice(i, 1);
+							vm.alertMsgs.splice(i, 1);
 						}
 					});
 					document.querySelector('.overlay').style.display = "none";
 				}, 2000);
+			},
+
+			// 手動刪除
+			removeMessage(num) {
+				this.alertMsgs.splice(num, 1);
+				document.querySelector('.overlay').style.display = "none";
 			},
 		},
 		created() {

@@ -6,7 +6,7 @@ import Vue from 'vue';
 // event bus 掛載在 vue 的原型下
 Vue.prototype.$bus = new Vue();
 
-// 重新取得購物車
+// 重新取得購物車 v
 // 'regetCart'
 // $emit: /CustomerProduct addtoCart(id, qty = 1)
 // $emit: /Detail addtoCart(id, qty = 1)
@@ -15,8 +15,8 @@ Vue.prototype.$bus = new Vue();
 
 // 套用優惠券，重新取得購物車
 // 'couponRegetCart'
-// $emit: /Navbar created()
-// $on: /CustomerCheckout addCouponCode()
+// $emit: /CustomerCheckout addCouponCode()
+// $on: /Navbar created() 
 
 // 後台上傳檔案傳錯誤通知
 // 'messsage:push'
@@ -24,7 +24,7 @@ Vue.prototype.$bus = new Vue();
 // $emit: /admin/Products uploadFile()
 // $on: /Alert created()
 
-// 建立訂單，使用者資料錯誤
+// 建立訂單，使用者資料錯誤(x後來取消)
 // 'messsage:push'
 // 參數：'response.data.message', 'danger'
 // $emit: /CustomerCheckout createOrder()

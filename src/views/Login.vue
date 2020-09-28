@@ -57,6 +57,9 @@
 				isLoading: false,
 			}
 		},
+		created(){
+			console.log("login");
+		},
 		methods: {
 			signin() {
 				const api = `${process.env.VUE_APP_APIPATH}/admin/signin`;
