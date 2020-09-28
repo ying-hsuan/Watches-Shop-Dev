@@ -6,7 +6,7 @@
 		<div class="container products_all">
 			<div class="row">
 				<!-- 讀取效果 -->
-				<loading :active.sync="isLoading"></loading>
+				<!-- <loading :active.sync="isLoading"></loading> -->
 
 				<!-- 左側選單 (List group) -->
 				<div class="col-md-3 pds_menu_all mb-4">
@@ -71,7 +71,7 @@
 				
 				cart: {},
 
-				isLoading: false,
+				// isLoading: false,
 				pagination: {},
 			};
 		},
@@ -97,7 +97,8 @@
 					return vm.products.filter(item => item.category == vm.category)
 				}
 				console.log(vm.products)
-			}
+			},
+			
 		},
 
 		methods: {
@@ -134,12 +135,12 @@
 			getPageProducts(page = 1) {
 				const vm = this;
 				const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products?page=${page}`;
-				vm.isLoading = true;
+				vm.$store.dispatch('updateLoading', true);
 				this.$http.get(url).then((response) => {
 					console.log(response);
 
 					if (response.data.success) {
-						vm.isLoading = false;
+						vm.$store.dispatch('updateLoading', false);
 						vm.pageProducts = response.data.products;
 						vm.pagination = response.data.pagination;
 					}
@@ -148,12 +149,7 @@
 
 			// 取得購物車列表
 			getCart() {
-				const vm = this;
-				const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-				this.$http.get(url).then((response) => {
-					console.log(response);
-					vm.cart = response.data.data;
-				});
+				this.$store.dispatch('getCart');
 			},
 		},
 	};

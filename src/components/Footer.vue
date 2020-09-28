@@ -16,11 +16,21 @@
 				</a>
 			</div>
 			<p class="text-center copyright">
-				© Copright 2019 Ying-Hsuan-Lee
+				© Copright {{nowYears}} by Kayla
 				<br>
 				個人練習用，無商業用途
 			</p>
-			<!-- <p class="text-center text">個人練習用，無商業用途</p> -->
 		</div>
 	</footer>
 </template>
+
+<script>
+export default {
+	computed: {
+		nowYears(){
+			let date = new Date();
+			return date.getFullYear();
+		}
+	},
+}
+</script>

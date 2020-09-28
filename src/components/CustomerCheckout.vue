@@ -1,6 +1,6 @@
 <template>
 	<div class="container customer_checkout">
-		<loading :active.sync="isLoading"></loading>
+		<!-- <loading :active.sync="isLoading"></loading> -->
 
 		<div class="mt-3">
 			<button class="btn btn_backto_pd" @click="backtoHome">&lt;&nbsp; 回到產品列表</button>
@@ -53,8 +53,10 @@
 							>
 								<td class="align-middle text-left">
 									<button class="trash_btn" @click.prevent="removeCart(item.id)">
-										<i class="fas fa-spinner fa-spin" v-if="status.delitem == item.id"></i>
-										<i class="fas fa-trash-alt" v-else></i>
+										<i class="fas fa-trash-alt" ></i>
+
+										<!-- <i class="fas fa-spinner fa-spin" v-if="status.delitem == item.id"></i>
+										<i class="fas fa-trash-alt" v-else></i> -->
 									</button>
 									<img class="pd_img pd_img_mob mt-2" :src="item.product.imageUrl" alt>
 								</td>
@@ -200,10 +202,6 @@
 	export default {
 		data() {
 			return {
-				cart: {},
-				status: {
-					delitem: '',
-				},
 				coupon_code: '', // 優惠碼
 
 				// 表單內容
@@ -216,8 +214,15 @@
 					},
 					message: ''
 				},
-				isLoading: false,
 			};
+		},
+		computed: {
+			cart(){
+				return this.$store.state.cart;
+			},
+			hasCoupon(){
+				return this.$store.state.hasCoupon;
+			},
 		},
 
 		created() {
@@ -228,45 +233,22 @@
 				console.log('regetCart');
 				this.getCart();
 			});
-
-			// this.$bus.$on('removeAllCart', () => {
-			// 	console.log('removeAllCart');
-			// 	// this.cart.carts = [];
-			// 	this.getCart();
-			// });
 		},
 
 		methods: {
 			// 取得購物車列表
 			getCart() {
-				const vm = this;
-				const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-				vm.isLoading = true;
-				this.$http.get(url).then((response) => {
-					console.log(response);
-					vm.cart = response.data.data;
-					vm.isLoading = false;
-				});
+				this.$store.dispatch('getCart');
 			},
 
 			removeCart(id) {
-				const vm = this;
-				const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`;
-				vm.status.delitem = id;
-				this.$http.delete(url).then((response) => {
-					vm.status.delitem = '';
-					vm.getCart();
-					console.log('刪除購物車項目', response);
-
-					// 傳給 /Navbar.vue 同步更新購物車
-					vm.$bus.$emit('regetCart');
-				});
+				this.$store.dispatch('removeCart', id);
 			},
 
 			createOrder() {
 				const vm = this;
 				const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order`;
-				// vm.isLoading = true;
+				vm.$store.dispatch('updateLoading', true);
 
 				const order = vm.form;
 
@@ -274,16 +256,12 @@
 				// 也可直接在 html 裡的 input 上下 required 的語法
 				vm.$validator.validate().then((result) => {
 					if (result) {
-						
 						vm.axios.post(url, { data: order }).then((response) => {
 							console.log('訂單已建立', response);
+							vm.$store.dispatch('updateLoading', false);
 							if (response.data.success) {
 								vm.$router.push(`/Payment/${response.data.orderId}`)
-							} else {
-								vm.$bus.$emit('messsage:push', response.data.message, 'danger');
-								console.log('欄位不完整');
-							}
-							// vm.getCart();
+							} 
 						});
 					}
 				});
@@ -293,7 +271,7 @@
 			addCouponCode() {
 				const vm = this;
 				const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/coupon`;
-				vm.isLoading = true;
+				vm.$store.dispatch('updateLoading', true);
 				const coupon = {
 					code: vm.coupon_code,
 				}
@@ -301,7 +279,7 @@
 				this.$http.post(url, { data: coupon }).then((response) => {
 					console.log(response);
 					vm.getCart();
-					vm.isLoading = false;
+					vm.$store.dispatch('updateLoading', false);
 
 					// 傳給 /Navbar.vue
 					// 套用優惠券後，購物車列表也要同步更新折扣後價格

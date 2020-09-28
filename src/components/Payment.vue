@@ -1,6 +1,6 @@
 <template>
 	<div class="container orderlist_all">
-		<loading :active.sync="isLoading"></loading>
+		<!-- <loading :active.sync="isLoading"></loading> -->
 		<!-- <div class="overlay"></div> -->
 		<!-- 購物流程 -->
 		<section class="d-flex justify-content-center mt-4">
@@ -117,7 +117,7 @@
 				cart: {
 					carts: [],
 				},
-				isLoading: false,
+				// isLoading: false,
 			}
 		},
 
@@ -125,24 +125,24 @@
 			getOrder() {
 				const vm = this;
 				const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order/${vm.orderId}`;
-				vm.isLoading = true;
+				vm.$store.dispatch('updateLoading', true);
 				this.$http.get(url).then((response) => {
 					console.log(response);
 					vm.order = response.data.order;
-					vm.isLoading = false;
+					vm.$store.dispatch('updateLoading', false);
 				});
 			},
 
 			payOrder() {
 				const vm = this;
 				const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/pay/${vm.orderId}`;
-				vm.isLoading = true;
+				vm.$store.dispatch('updateLoading', true);
 				this.$http.post(url).then((response) => {
 					console.log(response);
 					if (response.data.success) {
 						vm.getOrder();   // 重新取得訂單列表，會顯示是否付款
 						vm.$bus.$emit('messsage:push', '已付款完成', 'success');
-						vm.isLoading = false;
+						vm.$store.dispatch('updateLoading', false);
 					} 
 				});
 				// document.querySelector('.overlay').style.display = "block";

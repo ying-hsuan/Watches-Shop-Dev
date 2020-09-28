@@ -6,11 +6,11 @@
 				<div>
 					<router-link to="/" class="nav_brand">WHACHES SHOP</router-link>
 				</div>
+
 				<!-- 手機導覽列 -->
 				<div class="nav_mob">
 					<router-link to="/" class="nav-title">首頁 | 產品列表</router-link>
-					<router-link to="/admin" class="nav-title">後台管理</router-link>
-					<!-- <router-link to="/login" class="nav-title">登入</router-link> -->
+					<!-- <router-link to="/admin" class="nav-title">後台管理</router-link> -->
 				</div>
 			</div>
 
@@ -18,8 +18,9 @@
 				<!-- 電腦導覽列 -->
 				<div class="nav_pc">
 					<router-link to="/" class="nav-title">首頁 | 產品列表</router-link>
-					<router-link to="/admin" class="nav-title">後台管理</router-link>
+					<!-- <router-link to="/admin" class="nav-title">後台管理</router-link> -->
 				</div>
+
 				<!-- 購物車按鈕 -->
 				<button
 					class="btn btn-sm btn-cart"
@@ -39,10 +40,10 @@
 
 		<!-- 購物車列表 -->
 		<div class="cart_box p-3" v-show="isShow">
+			<!-- cart nav -->
 			<div 
 				class="cart_head"
-				:class="{ 'text-success': 'hasCoupon' }"
-			>
+				:class="{ 'text-success': 'hasCoupon' }">
 
 				<h6>已選擇商品</h6>
 				<p class="final_total">
@@ -52,11 +53,9 @@
 					<span class="text-success" v-if="hasCoupon">{{ cart.final_total | currency }}</span>
 					<span v-else>{{ cart.final_total | currency }}</span>
 				</p>
-				<!-- <div class="btn_close">
-						<i class="fas fa-times"></i>
-				</div>-->
 			</div>
 
+			<!-- cart list -->
 			<div class="cart_menu_all mb-3">
 				<table class="table table-sm" v-if="cart.carts.length">
 					<tbody>
@@ -64,8 +63,11 @@
 						<tr v-for="item in cart.carts" :key="item.id">
 							<td class="align-middle text-center">
 								<button class="trash_btn" @click.prevent="removeCart(item.id)">
-									<i class="fas fa-spinner fa-spin" v-if="status.delitem == item.id"></i>
-									<i class="fas fa-trash-alt" v-else></i>
+									<i class="fas fa-trash-alt" ></i>
+
+									<!-- 垃圾桶單獨轉圈 -->
+									<!-- <i class="fas fa-spinner fa-spin" v-if="status.delitem == item.id"></i> -->
+									<!-- <i class="fas fa-trash-alt" v-else></i> -->
 								</button>
 							</td>
 
@@ -98,94 +100,36 @@
 		name: 'App',
 		data() {
 			return {
-				cart: {
-					carts: [],
-				},
-				isLoading: false,
-				status: {
-					delitem: '',
-				},
 				isShow: false,
-
-				hasCoupon: false
 			};
+		},
+		computed: {
+			cart(){
+				return this.$store.state.cart;
+			},
+			hasCoupon(){
+				return this.$store.state.hasCoupon;
+			}
 		},
 
 		created() {
 			this.getCart();
 
-			// 從 /CustomerProduct.vue addtoCart(id, qty = 1) 傳來
-			// 從 /CustomerCheckout.vue addCouponCode() 傳來
-			this.$bus.$on('regetCart', () => {
-				console.log('emit on')
-				this.getCart();
-			});
-
-			// 
-			this.$bus.$on('emptyCart', () => {
-				console.log('emptyCart')
-				this.removeAllCart();
-			});
-
 			// 從 /CustomerCheckout.vue addCouponCode() 傳來
 			// 如果有套用優惠券，價格要顯示綠色
-			this.$bus.$on('couponRegetCart', ()=>{
-				console.log('on couponRegetCart')
-				this.getCart();
-			})
+			// this.$bus.$on('couponRegetCart', ()=>{
+			// 	console.log('on couponRegetCart')
+			// 	this.getCart();
+			// })
 		},
-
-		// updated() {
-		// 	this.$bus.$on('emptyCart', () => {
-		// 		console.log('emptyCart')
-		// 		this.removeAllCart();
-		// 	});
-		// },
 
 		methods: {
 			getCart() {
-				const vm = this;
-				vm.isLoading = true;
-				const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-				this.$http.get(url).then((response) => {
-					if (response.data.data.carts) {
-						vm.cart = response.data.data;
-					}
-					vm.isLoading = false;
-					console.log('取得購物車', response.data.data);
-					// console.log(vm.hasCoupon)
-
-					// ---
-					// 如果有套用優惠券，價格要顯示綠色
-
-					let resCarts = response.data.data.carts
-
-					resCarts.forEach((el, i ,arr)=>{
-						if (el.coupon) {
-							vm.hasCoupon = true
-							console.log(vm.hasCoupon)
-						}
-					})
-				});
+				this.$store.dispatch('getCart');
 			},
+
 			removeCart(id) {
-				const vm = this;
-				const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`;
-				vm.status.delitem = id;
-				this.$http.delete(url).then((response) => {
-					vm.status.delitem = '';
-					vm.getCart();
-
-					// 傳給 /CustomerCheckout.vue created()，重新取得購物車
-					this.$bus.$emit('regetCart');
-					console.log('刪除購物車項目', response);
-				});
-			},
-
-			removeAllCart() {
-				this.cart.carts = [];
-				this.$bus.$emit('removeAllCart');
-				this.getCart();
+				this.$store.dispatch('removeCart', id);
 			},
 
 			toggleCartbox() {

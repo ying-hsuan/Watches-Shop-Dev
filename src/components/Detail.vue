@@ -1,6 +1,5 @@
 <template>
 	<div class="container detail_all">
-		<loading :active.sync="isLoading"></loading>
 		<div class="detail_content">
 			<div class="d-flex top_btn_all">
 				<button class="top_btn" @click="backPage">
@@ -57,14 +56,8 @@
 								product.num)"
 								@click="addtoCartAlert"
 							>
-								<i class="fas fa-spinner fa-spin" v-if="product.id === status.loadingItem"></i>
-								<i class="fa fa-cart-plus" aria-hidden="true" v-else></i>
 								加入購物車
 							</a>
-							<!-- <div class="tooltip_custom">
-								<div class="arrow"></div>
-								<div class="tooltip_inner">已加入購物車</div>
-							</div>-->
 						</div>
 					</div>
 				</div>
@@ -82,11 +75,6 @@
 			return {
 				product: {},
 				pdId: '',
-				isLoading: false,
-				status: {
-					loadingItem: '', // 放產品的 id
-				},
-				cart: {},  // 購物車列表裡的每一筆資料
 			};
 		},
 
@@ -94,7 +82,6 @@
 			this.pdId = this.$route.params.product_id;
 			this.getProduct(this.pdId);
 			console.log(this.pdId);
-			// this.getCart();
 		},
 
 		methods: {
@@ -102,7 +89,7 @@
 			getProduct(id) {
 				const vm = this;
 				const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/product/${id}`;
-				vm.isLoading = true;
+				vm.$store.dispatch('updateLoading', true);
 				this.$http.get(url).then((response) => {
 					console.log(response);
 					vm.product = response.data.product;
@@ -110,32 +97,18 @@
 					// 一開始設定數量是 1，不然選擇框會空白
 					vm.product.num = 1;
 					
-					vm.isLoading = false;
+					vm.$store.dispatch('updateLoading', false);
 				});
+			},
+
+			// 取得購物車列表
+			getCart() {
+				this.$store.dispatch('getCart');
 			},
 
 			// 加入購物車
 			addtoCart(id, qty = 1) {
-				const vm = this;
-				const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-				vm.status.loadingItem = id;
-
-				// API 會傳入的參數屬性(product_id、qty)
-				const cart = {
-					product_id: id,
-					qty
-				}
-
-				this.$http.post(url, { data: cart }).then((response) => {
-					if (response.data.success) {
-						console.log(response);
-						vm.status.loadingItem = '';
-						vm.getCart();
-						vm.addtoCartAlert();
-					}
-				})
-
-				this.$bus.$emit('regetCart');
+				this.$store.dispatch('addtoCart', {id, qty});
 			},
 
 
@@ -150,15 +123,7 @@
 				}, 1200)
 			},
 
-			// 取得購物車列表
-			getCart() {
-				const vm = this;
-				const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-				this.$http.get(url).then((response) => {
-					console.log(response);
-					vm.cart = response.data.data;
-				});
-			},
+			
 
 			backPage() {
 				this.$router.back();

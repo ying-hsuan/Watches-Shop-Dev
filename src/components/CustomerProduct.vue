@@ -64,27 +64,16 @@
 			viewDetail(id) {
 				this.$router.push(`/detail/${id}`)
             },
-            
+			
+			// 取得購物車列表
+			getCart() {
+				this.$store.dispatch('getCart');
+			},
+
             // 加入購物車
 			addtoCart(id, qty = 1) {
-				const vm = this;
-				const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-				vm.status.loadingItem = id;
-
-				// API 會傳入的參數屬性(product_id、qty)
-				const cart = {
-					product_id: id,
-					qty
-				}
-
-				this.$http.post(url, { data: cart }).then((response) => {
-					console.log(response);
-					vm.status.loadingItem = '';
-					vm.getCart();
-                    vm.addtoCartAlert();
-                    this.$bus.$emit('regetCart')
-                })
-                
+				this.$store.dispatch('addtoCart', {id, qty});
+				this.addtoCartAlert();
 			},
 
 			addtoCartAlert() {
@@ -97,16 +86,6 @@
 				setTimeout(function () {
 					tooltip.tooltip('hide');
 				}, 2000)
-			},
-
-			// 取得購物車列表
-			getCart() {
-				const vm = this;
-				const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-				this.$http.get(url).then((response) => {
-					console.log(response);
-					vm.cart = response.data.data;
-				});
 			},
 		},
 	}
