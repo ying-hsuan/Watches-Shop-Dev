@@ -29,9 +29,7 @@
 						<div class>
 							<button
 								class="btn_addcart ml-auto"
-								data-toggle="tooltip"
-								data-placement="top"
-								title="已加入購物車"
+								title="加入購物車"
 								@click="addtoCart(item.id)"
 							>
 								<i class="fas fa-spinner fa-spin" v-if="status.loadingItem === item.id"></i>
@@ -56,7 +54,7 @@
 				status: {
 					loadingItem: '', // 放產品的 id
 				},
-                cart: {},
+				cart: {},
 			}
 		},
 
@@ -72,21 +70,27 @@
 
             // 加入購物車
 			addtoCart(id, qty = 1) {
-				this.$store.dispatch('addtoCart', {id, qty});
-				this.addtoCartAlert();
+				this.$store.dispatch('addtoCart', {id, qty})
 			},
 
-			addtoCartAlert() {
-				let tooltip = $('[data-toggle="tooltip"]');
-				tooltip.tooltip({
-					trigger: 'click',
-				});
+			// addtoCartAlert() {
+			// 	let vm = this;
+			// 	let tooltip = $('[data-toggle="tooltip"]');
+
+			// 	vm.$nextTick(function () {
+			// 		tooltip.tooltip({
+			// 			trigger: 'click',
+			// 		})
+			// 	})
 				
-
-				setTimeout(function () {
-					tooltip.tooltip('hide');
-				}, 2000)
-			},
+			// 	setTimeout(function () {
+			// 		tooltip.tooltip('hide');
+			// 	}, 3000)
+			// },
 		},
 	}
 </script>
+
+<style lang="scss">
+
+</style>

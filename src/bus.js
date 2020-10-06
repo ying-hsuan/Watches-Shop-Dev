@@ -30,7 +30,7 @@ Vue.prototype.$bus = new Vue();
 // $emit: /CustomerCheckout createOrder()
 // $on: /Alert created()
 
-// 付款完成
+// 付款完成 v
 // 'messsage:push'
 // 參數：'已付款完成', 'success'
 // $emit: /Payment payOrder()

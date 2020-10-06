@@ -141,7 +141,18 @@
 					console.log(response);
 					if (response.data.success) {
 						vm.getOrder();   // 重新取得訂單列表，會顯示是否付款
-						vm.$bus.$emit('messsage:push', '已付款完成', 'success');
+
+						const timestamp = Math.floor(new Date() / 1000);
+
+						let paySuccessAlert = {
+							alertMsg: "已付款完成",
+							status: "success",
+							timestamp
+						}	
+
+						vm.$store.dispatch('updateAlert', paySuccessAlert)
+						// vm.$bus.$emit('messsage:push', '已付款完成', 'success');
+
 						vm.$store.dispatch('updateLoading', false);
 					} 
 				});

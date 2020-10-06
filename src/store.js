@@ -12,6 +12,9 @@ export default new Vuex.Store({
             carts: [],
         },
         hasCoupon: false,
+
+        alertMsgs: [],
+        alertDisplay: false
     },
     actions: {
         updateLoading(context, payload) {
@@ -55,12 +58,33 @@ export default new Vuex.Store({
                 qty
             }
 
-            axios.post(url, { data: cart }).then((response) => {
-                context.commit('LOADING', false);
-                context.dispatch('getCart');
-                console.log("加入購物車: ", response)
-            })
 
+            // ---------------------------
+            // 傳給 updateAlert
+            const timestamp = Math.floor(new Date() / 1000);
+
+            let successAlert = {
+                alertMsg: "已加入購物車",
+                status: "success",
+                timestamp
+            }
+
+            let errorAlert = {
+                alertMsg: "加入購物車失敗",
+                status: "warning",
+                timestamp
+            }
+
+            axios.post(url, { data: cart }).then((response) => {
+                if (response.status == 200) {
+                    context.commit('LOADING', false);
+                    context.dispatch('updateAlert', successAlert)
+                    context.dispatch('getCart');
+                    console.log("加入購物車: ", response)
+                } else {
+                    context.dispatch('updateAlert', errorAlert)
+                }
+            })
         },
 
         removeCart(context, id) {
@@ -71,6 +95,25 @@ export default new Vuex.Store({
                 context.dispatch('getCart');
                 console.log('刪除購物車項目', response);
             });
+        },
+
+
+        // ----------------------------------
+        // 跳提醒
+
+        // 加入訊息的屬性，然後把自己移除
+        updateAlert(context, payload) {
+            context.commit("alertMsgs", payload)
+            context.commit("alertDisplay", true)
+            context.dispatch("removeAlertWithTiming", payload.timestamp)
+        },
+
+        // 五秒過後自動刪除自己，從 updateAlert 裡傳進來的 timestamp參數才會自動移除
+        removeAlertWithTiming(context, timestamp) {
+            setTimeout(() => {
+                context.commit("removeAlertWithTiming", timestamp)
+                context.commit("alertDisplay", false)
+            }, 2000);
         },
     },
     mutations: {
@@ -86,5 +129,31 @@ export default new Vuex.Store({
         HASCOUPON(state, payload) {
             state.hasCoupon = payload;
         },
+
+
+        // --------------------------------
+        // 跳提醒
+
+        alertMsgs(state, payload) {
+            state.alertMsgs.push({
+                alertMsg: payload.alertMsg,
+                status: payload.status,
+                timestamp: payload.timestamp,
+            });
+            console.log(state.alertMsgs)
+            console.log(payload)
+        },
+
+        alertDisplay(state, payload) {
+            state.alertDisplay = payload;
+        },
+
+        removeAlertWithTiming(state, timestamp) {
+            state.alertMsgs.forEach((item, i) => {
+                if (item.timestamp === timestamp) {
+                    state.alertMsgs.splice(i, 1);
+                }
+            });
+        }
     },
 })

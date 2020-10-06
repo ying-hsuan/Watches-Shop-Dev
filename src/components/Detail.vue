@@ -113,18 +113,19 @@
 
 
 			addtoCartAlert() {
+				let vm = this;
 				let tooltip = $('[data-toggle="tooltip"]');
-				tooltip.tooltip({
-					trigger: 'click',
-				});
+
+				vm.$nextTick(function () {
+					tooltip.tooltip()
+				})
 
 				setTimeout(function () {
 					tooltip.tooltip('hide');
-				}, 1200)
+				}, 3000)
 			},
 
 			
-
 			backPage() {
 				this.$router.back();
 			},

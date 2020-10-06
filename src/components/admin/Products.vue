@@ -340,9 +340,10 @@
 
 			// 上傳檔案
 			uploadFile() {
-				console.log(this);  // this 是 VueComponent 物件
-				const uploadedFile = this.$refs.files.files[0];  // 取出上傳的檔案
 				const vm = this;
+				
+				const uploadedFile = this.$refs.files.files[0];  // 取出上傳的檔案
+				console.log(vm);  // this 是 VueComponent 物件
 
 				// 建立 formData 物件，上傳檔案必須使用 formData 規定的型式
 				const formData = new FormData();
@@ -366,7 +367,6 @@
 					// 撈完資料後就關閉讀取效果
 					vm.fileUploading = false;
 
-					// 
 					if (response.data.success) {
 						// 此時 tempProduct.image 裡並沒有包含 getter 與 setter，所以並沒有正確寫入資料，所以需要用 "$set" 強制寫入
 						// vm.tempProduct.imageUrl = response.data.imageUrl;  // 存入 tempProduct
@@ -375,9 +375,19 @@
 						//     1.被存入的資料 2.資料裡的欄位 3.要存入什麼資料
 						vm.$set(vm.tempProduct, 'imageUrl', response.data.imageUrl)
 					} else {
+						const timestamp = Math.floor(new Date() / 1000);
+
+						let uploadFailAlert = {
+							alertMsg: response.data.message,
+							status: "danger",
+							timestamp
+						}	
+
+						vm.$store.dispatch('updateAlert', uploadFailAlert)
+
 						// 對照 bus.js、 Alert.vue檔案
 						// 透過 event bus 往外層傳送 ($emit) 要顯示的錯誤訊息內容
-						this.$bus.$emit('messsage:push', 'response.data.message', 'danger');
+						// this.$bus.$emit('messsage:push', 'response.data.message', 'danger');
 					}
 				});
 			}

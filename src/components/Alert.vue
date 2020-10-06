@@ -1,6 +1,6 @@
 <template>
 	<div class="alert_all">
-		<div class="overlay"></div>
+		<div class="overlay" v-if="alertDisplay"></div>
 		<div class="alert_msg_all">
 			<!-- 根據不同狀態綁定樣式 (status) -->
 			<div
@@ -9,7 +9,7 @@
 				v-for="(item, i) in alertMsgs"
 				:key="i"
 			>
-				<p>{{ item.message }}</p>
+				<p>{{ item.alertMsg }}</p>
 
 				<button type="button" class="btn_close" @click="removeMessage(i)" aria-label="Close">
 					<span class="close_txt" aria-hidden="true">&times;</span>
@@ -78,40 +78,46 @@
 				// 		timestamp: 123  // 類似 id
 				// }],
 
-				alertMsgs: [],
+				// alertMsgs: [],
 			};
 		},
 		computed: {
-			
+			alertMsgs(){
+				return this.$store.state.alertMsgs;
+			},
+			alertDisplay(){
+				return this.$store.state.alertDisplay;
+			}
 		},
 		methods: {
+			// 後來 vuex 解決
+			
 			// 加入訊息的屬性，然後把自己移除
-			updateMessage(message, status) {
+			// updateMessage(message, status) {
 				// 把 timestamp 轉成整數
-				const timestamp = Math.floor(new Date() / 1000);
-				this.alertMsgs.push({
-					message,
-					status,
-					timestamp,
-				});
+				// const timestamp = Math.floor(new Date() / 1000);
+				// this.alertMsgs.push({
+				// 	message,
+				// 	status,
+				// 	timestamp,
+				// });
 				
-				this.removeMessageWithTiming(timestamp);
-
-				document.querySelector('.overlay').style.display = "block";
-			},
+				// this.removeMessageWithTiming(timestamp);
+				// document.querySelector('.overlay').style.display = "block";
+			// },
 
 			// 五秒過後自動刪除自己，從 updateMessage 裡傳進來的 timestamp參數才會自動移除
-			removeMessageWithTiming(timestamp) {
-				const vm = this;
-				setTimeout(() => {
-					vm.alertMsgs.forEach((item, i) => {
-						if (item.timestamp === timestamp) {
-							vm.alertMsgs.splice(i, 1);
-						}
-					});
-					document.querySelector('.overlay').style.display = "none";
-				}, 2000);
-			},
+			// removeMessageWithTiming(timestamp) {
+			// 	const vm = this;
+			// 	setTimeout(() => {
+			// 		vm.alertMsgs.forEach((item, i) => {
+			// 			if (item.timestamp === timestamp) {
+			// 				vm.alertMsgs.splice(i, 1);
+			// 			}
+			// 		});
+			// 		document.querySelector('.overlay').style.display = "none";
+			// 	}, 2000);
+			// },
 
 			// 手動刪除
 			removeMessage(num) {
@@ -129,9 +135,10 @@
 			// 		=> message: data裡的變數，
 			// 		=> status: 樣式，預設值為 warning
 			// 4. 執行更新訊息的方法
-			vm.$bus.$on('messsage:push', (message, status = 'warning') => {
-				vm.updateMessage(message, status);
-			});
+			// vm.$bus.$on('messsage:push', (message, status = 'warning') => {
+			// 	vm.updateMessage(message, status);
+			// });
+
 		},
 	};
 </script>
