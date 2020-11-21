@@ -286,7 +286,7 @@
 					this.$bus.$emit('couponRegetCart')
 				});
 			},
-
+			
 			backtoHome() {
 				this.$router.push('/');
 			}
